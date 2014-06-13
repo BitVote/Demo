@@ -218,12 +218,12 @@ function voting(which)
 }
 
 
-var pokingtons_patience = 1000;
-function sir_pokington()
+var interrupt_interval = 1000;
+function periodic_interrupt()
 {   
     update_spend_time();
     update_spend_addr();
-    setTimeout(function(){ sir_pokington(); }, pokingtons_patience);
+    setTimeout(periodic_interrupt, interrupt_interval);
 }
 
 function create_increment_buttons()
@@ -253,7 +253,7 @@ function register()
     update_power_time();
     create_increment_buttons();
     
-    sir_pokington();
+    periodic_interrupt();
 }
 
 voting(from_time() == 0);
