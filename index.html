@@ -1,213 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Protecting the Internet from Social and Political Attacks." />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>BitVote Demo by BitVote</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <title>BitVote Demo</title>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>BitVote Demo</h1>
+        <p>Protecting Ethereum from Social and Political Attacks</p>
+        <p class="view"><a href="https://github.com/BitVote">View the Project on GitHub <small>BitVote</small></a></p>
+        <ul>
+          <li class="single"><a href="https://github.com/BitVote/BitVote.github.io">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-                                                <a id="forkme_banner" href="https://github.com/arkbg1/BitVote">View on GitHub</a>
-          <h1 id="project_title">BitVote (Demo)</h1>
-          <h2 id="project_tagline">Protecting the Internet from Social and Political Attacks</h2>
-<a href="http://arkbg1.github.io/BitVote/"><<< Wiki |</a>
-<a href="http://arkbg1.github.io/BitVote/"> Demo |</a>
-<a href="https://www.youtube.com/watch?v=i5QVMIzR_kE">Video* |</a>
-<a href="http://forum.ethereum.org/discussion/941/bitvote-protecting-ethereum-from-social-attacks">Forum |</a>
-<a href="https://github.com/arkbg1/BitVote/wiki/*A*-plan">Code |</a>
-<a href="https://github.com/arkbg1/BitVote/issues">Issues |</a>
-<a href="https://coinbase.com/inline_payments/90b8f98e7b332be4bc3f9f51fb4c8991"> Donate >>></a>
-            <section id="downloads">
-                          <a class="coinbase-button" data-code="fa56e79c336269839e3f7f1391c88b90" data-button-style="donation_small" href="https://coinbase.com/checkouts/fa56e79c336269839e3f7f1391c88b90">Donate Bitcoins</a><script src="https://coinbase.com/assets/button.js" type="text/javascript"></script>
+<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 
-
-            </section>
-           
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1></h1>
-
-<br />
-
-<button id="register_button" onclick="register()">START HERE</button>
-
-<br />
-
-<span id="voting_whole">
-
-<br />
-<br />
-
-<table>
-<tr><td class="note">add</td> <td>CurrentTime:</td>      <td id="current_time"></td></tr>
-<tr style="border-bottom: 2px"><td class="note">minus</td> <td>Registered* Time:</td> <td id="register_time"></td></tr>
-<tr><td class="note">minus</td> <td>Spent Vote-Time:</td>    <td id="spent_time"></td></tr>
-<tr><td class="note">equals</td> <td>Available Vote-Time:</td>    <td id="power_time"></td></tr>
-</table>
-
-<table id="entry_table">
-<tr><td>Vote-Time:</td><td>
-    <input type="number" id="spend_time" value="0" onkeyup="update_spend_time()" onchange="update_spend_time();">
-    <br>
-    <span id="increment_buttons"></span>
-</td><td id="amount_note"></td></tr>
-<br>
-<tr><td>http://</td><td>
-<!-- Really we probably want a address input,
-     that can do stuff like look at NameReg automatically.
-     But also want to have it be an accepted votable.. -->
-    <input type="text" id="spend_addr" onkeyup="update_spend_addr()" onchange="update_spend_addr()"></td><td id="spend_addr_note"></td></tr>
-</table> 
-
- 
-<button id="button" onclick="spend_time_button();">VOTE</button> 
-
-<p id="progress"></p>
-<p id="passed"></p>
-</span>
-
-
-<script src="js.js"></script>
-</body>
-
-
-
-
-<br />
-<br />VoteChain*<a href="https://www.youtube.com/watch?v=9pSh0VAVYn4">*</a>
-
-<pre><code>@o-jasper +00:01:00= http://stephan_go_get_my_coffee.com
-@Stephan.Tual +00:01:00= http://jasper_im_not_your_minion.com
-@Aaron.Bale +24:00:00= http://focus_please_we_have_a_deadline.com
-@o-jasper +23:59:00= http://o-jasper.github.io/VOTE_MINIONS/
-@Stephan.Tual +23:59:00= https://www.youtube.com/user/ethereumproject
-@Preston.Byrne +00:03:00= http://marmut_emancipation.com
-@Voter20140607130900 +00:05:00= http://animalrescuecorps.org/
-@Voter20140607131800 +00:07:00= http://www.mayoclinic.org/diseases-conditions/trichotillomania/basics/definition/con-20030043
-@Voter20140607134100 +00:13:00= http://www.huffingtonpost.com/2014/06/06/obama-elizabeth-warren-st_n_5461988.html
-@Voter20140607142100 +00:01:00= http://nothing_is_serious.com
-@Voter20140607142400 +00:02:00= https://drive.google.com/file/d/0B5ir3iQlolAhdkU4Y0VEa1ZOcmc/edit?usp=sharing
-@Jeffrey.Wilcke +00:02:00= http://www.theatlantic.com/technology/archive/2013/06/animal-behaviorist-well-soon-have-devices-that-let-us-talk-with-our-pets/276532/
-@Voter20140607204700 +00:01:00= http://www.healthplans.com/get-quotes/?CID=8814&SRC=hp_google&Sub_ID=obamacare&adposition=1t1&google_network=g&creativeid=42715799117&adposition={position}&matchtype=e&mobile=&bw_keyword=obamacare&bw_brand=0&bw_state=0&utm_content=42715799117&kid=35346332410965&pdv=c&position=1t1
-@Voter20140610185600 +00:05:00= http://www.dailykos.com/story/2013/05/08/1207734/-Elizabeth-Warren-Students-should-get-the-same-loan-rate-as-big-nbsp-banks
-@Voter20140610185600 +00:11:00= https://docs.google.com/document/d/1lKrtSpq_1homVevAXYZY89OLNXcToODNlgUOdFFc4gc/edit?usp=sharing  
-@Voter20140612194700 +24:00:00= https://
-  
+<pre><code>$ cd your_repo_root/repo_name
+$ git fetch origin
+$ git checkout gh-pages
 </code></pre>
-* Registration will be 1:1 Identified, POC uses honor system
-</br />** VoteChain will be decentralized, POC Centralized
-<br />
-<br />
-<h3>What is BitVote?</h3>
-<br />BitVote is a self-developing digital ecosystem that empowers the people to interpret and express themselves in measurable ways by codifying time units of real life individual human beings as opposed upvoting fake internet points the way old websites did. BitVote will protect Ethereum - as well as the entire Internet - from Social and Political Attacks not by wasting time on those old tools proven unable to fix old problems - but by providing people with revolutionary yet deceptively simple protections to guard the future of the internet.
-<br />
-<br />
+
+<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
 
 <h3>
-<a name="the+inspiration" class="anchor" href="#The-Inspiration"><span class="octicon octicon-link"></span></a>The Inspiration</h3>
+<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
 
-<br />Our project is inspired by the 2012 SOPA Blackout in which Internet users rose up and defeated political corruption. With Ethereum as our platform, we can build a tool capable of duplicating the effect of the Blackout. 
-<br />
-<br />The solution is code-named BitVote. The project has been developing for over two years through the teamwork of an amoeba of coders, videographers, activists, and normal citizens around the world. All the developers have one thing in common: a desire to have the voice of the people heard and heeded. 
-<br />
-<br />
+<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
 
 <h3>
-<a name="the-concept" class="anchor" href="#the-concept"><span class="octicon octicon-link"></span></a>The Concept</h3>
+<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
 
-<br />A decentralized voting system on the Internet, partly inspired by Bitcoin’s ChainBlock technology, with no authoritarian control influencing the system. Once it’s up, it develops itself. The coding is open to everyone, and the main record of votes can be accessed by anyone, from anywhere. This ensures transparency of the system and a built-in safeguard against manipulation and censorship.
-<br />
-
-<br /> Terminology
-<br />
-<br />The main three variables in the system can be thought of as name, idea, and time. The “name” of the BitVoter will be an anonymized, authenticated user ID. The idea will be any http link. The time will be however many Vote Hours a voter wants to use toward that cause, depending on how important it is to them. If it’s only mildly important, they may use one of their 24 Vote Hours for one day to give to that cause. Or, if it’s very important to them, they may use all of their Vote Hours for one day, one week, or one month on that idea.
-<br />
-<br />Voting units are hours of actual, real life or “Vote Hours.” Every voter has 24 Vote Hours in one day and thus just under 9,000 Vote Hours per year. The number of Vote Hours an issue receives will translate to how important it is to voters. Issues can be as small as a local business attempting to expand in your neighborhood, or as large as Stop SOPA. 
-<br />
-<br />Vote hours can be saved up and used at a later time. Consequently, frugal voters will have more weight on big issues, and less thrifty voters will operate more like citizen journalists or idea developers. A voter could save up a year’s worth of Vote Hours and then use them all one day on the linked idea “<a href="http://www.Make-animal-abuse-a-felony.com" target="_blank" rel="nofollow">http://www.Make-animal-abuse-a-felony.com</a>.” 
-<br />
-<br />Voters can create their own BitVotes. Then others can create BitVotes that support, modify, or counter them. The system will be integrated and easily accessible from social media outlets, and put legislative control in accordance with the will of the people. 
-<br />
-<br />This functions similar to Reddit in that it organizes linked ideas and sorts them, except it is based on a gradient amount of scarce VoteHours as opposed to only one “upvote” or “downvote” per linked idea per account. 
-<br />
-<br />Example:
-<br />
-<br />Jim wants to build a recreation center for teens in his town. He creates a video, fact page, paste bin, etc., or links an existing page such as <a href="https://www.Build-a-Teen-Recreation-Center-in-Boulder-Colorado.com" target="_blank" rel="nofollow">https://www.Build-a-Teen-Recreation-Center-in-Boulder-Colorado.com</a> then he devotes 12 of his VoteHours on the day he creates the BitVote vote. He then shares his BitVote via his social media profile and encourages his friends and neighbors to contribute some of their VoteHours to it. Some of his contacts may choose to give some of their VotesHours to the cause, some may ignore him, and other may create their own BitVotes to modify Jim’s idea such as <a href="https://www.Build-a-Teen-Recreation-Center-in-Boulder-Colorado-By-Increasing-Property-Tax-5%.com" target="_blank" rel="nofollow">https://www.Build-a-Teen-Recreation-Center-in-Boulder-Colorado-By-Increasing-Property-Tax-5%.com</a> which can also be modified.
-<br />
-<br />If a voter finds a vulnerability or thinks of an improvement to the actual system, he or she can BitVote their idea directly to the main record. The goal is not to have a perfect system, but one that constantly evolves and adapts, while retaining the core concept of every person having an equal voice. It is a living document. BitVote will become more efficient, more secure, and more useful as time goes on and more Voters contribute ideas and technology to its enhancement. 
-<br />
-<br />The functions of the system are endless. BitVote itself does not serve as an analyst to make sense of the votes. That’s up to voters, app creators, coders, researchers, businesses, and governments. The 24 VoteHour system is superior to a Single-Vote-per-Issue system because it provides a multidimensional data set that can be interpreted and expressed according to any number of different parameters. Software developers will have an opportunity here to develop analysis software that can filter data by a number of criteria such as location, time, or subject. 
-<br />
-<br />Examples:
-<br />
-<br />Governments- A town committee filters data from the BitVote system to analyze the public opinion for issues in their town and drafts policy based on the expressed will of the people. 
-<br />
-<br />Voters- Bob wants to donate to a charity for children. He uses an BitVote analysis application on his phone to isolate issues with the keyword “children” to find something that appeals to him but hasn’t grabbed substantial public attention yet, as evidenced by its low number of VoteHours. This way he can donate to the cause he determines to be most in need.
-<br />
-<br />Businesses- Businesses can examine BitVote statistics and decide which products appeal to their customers, which are controversial, and what public stance on certain issues may deter customers. 
-<br />
-<br />Researchers- Time Magazine wants to publish articles about issues that are most important to the public. Their research teams analyze the data by number of votes for an issue, average percentage of  Voters’ allotted hours dedicated to a certain issue, or other statistical methods that provide an accurate depiction of the interest of readers.
-<br />
-<br />
-<br />Each voter will be have anonymity on the system, differentiated from others only by an ID number. Voters use their authenticated account to access BitVote and contribute. There are a number of ideas circulating for authentication, which can be discussed later, but it must be linked to each individual voter’s biological uniqueness. Some will work long-term, some only in the initial stages of the application. The key here is that the BitVoters can improve user authentication as technology develops.
-<br />
-<br />A few examples for basic authentication can be found here: 
-<br />
-<br />-Cellular phone
-<br />-Active Authentication - 
-<br />-DHT of PGPs (Team X) - <a href="https://github.com/Open-Vote/Plan/blob/master/README.md" target="_blank" rel="nofollow">https://github.com/Open-Vote/Plan/blob/master/README.md</a>
-<br />
-<span class="VideoWrap"><span class="Video YouTube" id="youtube-fgNpOzvwOiU"><span class="VideoPreview"><a href="//youtube.com/watch?v=fgNpOzvwOiU"><img src="//img.youtube.com/vi/fgNpOzvwOiU/0.jpg" width="640" height="385" border="0" /></a></span><span class="VideoPlayer"></span></span></span>
-<br />
-<br />Eventually the technology will be available to authenticate users based on more secure and confidential biologic elements such as fingerprints, iris patterns, DNA, voice, etc.
-<br />
-<br />In summary, BitVote can be a catalyst for any number of real world actions. Like the Internet, it has no functional boundaries. Anyone who has web access can create a BitVote that is important to them and potentially bring their idea or issue to the eye of the public at large. This project can feasibly provide a turning point in history in which the people effectively take the power out of the hands of corrupt leaders and institutions. 
-<br />
-<br />In reaction to the SOPA Blackout many derivative groups have formed in order to protect the Internet, the world’s most valuable tool for freedom. However, the problem with groups like Reddit, the Internet Defense League, and Internet Association is their use of the same old tactics that stall threats to the Internet but do not provide a longterm solution. BitVote provides a solution that will strengthen with time. We have seen what the Internet is capable of, how it has the power to expose corruption and deter counterproductive agendas such as that of the FCC against Net Neutrality. Ethereum, like Bitcoin, cannot directly protect itself from political and social attacks. BitVote, like Wikipedia, Reddit, and BitCoin, is a revolutionary crowdsourced concept, but needs a code base platform to launch. That’s why BitVote needs Ethereum. In turn, BitVote can protect Ethereum, as well as the entire Internet, from social and political attacks.
-<br />
-<br />
+<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
 
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>In 2012, Aaron Bale (<a href="https://github.com/arkbg1" class="user-mention">@arkbg1</a>), Aaron Swartz (<a href="https://github.com/aaronsw" class="user-mention">@aaronsw</a>) and Sven Swootleg (<a href="https://github.com/joepie91" class="user-mention">@joepie91</a>) and Leah Chase (<a href="https://twitter.com/LeahxPearl" class="user-mention">@leahxpearl</a>) founded BitVote.
-</p>
-<p>In 2014, BitVote began collaborating with Jasper den Ouden (<a href="https://github.com/o-jasper" class="user-mention">@o-jasper</a>) and Stephan Tual (<a href="https://github.com/stephantual" class="user-mention">@stephantual</a>) of Ethereum.
-</p>
+<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
 
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
 <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-                           <a class="coinbase-button" data-code="fa56e79c336269839e3f7f1391c88b90" data-button-style="donation_small" href="https://coinbase.com/checkouts/fa56e79c336269839e3f7f1391c88b90">Donate Bitcoins</a><script src="https://coinbase.com/assets/button.js" type="text/javascript"></script>
-
       </section>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">BitVote maintained by <a href="https://github.com/arkbg1">arkbg1</a></p>
-<p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
-
-      </footer>
-    </div>
-
+    <footer>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-
   </body>
 </html>
