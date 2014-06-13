@@ -120,7 +120,7 @@ function update_spend_time()
       notition(amount_note, 'note', '(' + pct + '%)');
       old_spend_val = spend_time.value;
     }
-    else{ wrong_cnt -= 1; }
+    else{ wrong_cnt -= 1; }  // Countdown to zero.
     ge_set_innerHTML('spend_time_show', to_time_string(spend_time.value));
     if( increment_buttons_p )
     {   t = power_available()/1 - spend_time.value/1;
@@ -175,9 +175,14 @@ function update_spend_addr()
 
 function spend_time_button()
 {
-    if( spend_addr.value == '' ){ return; }  // Cant vote on empty.
+    if( spend_addr.value == '' )  // Voting to nothing makes no sense.
+    {   spend_addr_note.className = 'wrong';
+        return; 
+    }
+    if( spend_time.value == 0 ) //Cannot spend zero amount.
+    {   return update_spend_time_wrong_amount('Cannot spend zero vote-time'); }
+
     update_spend_time();
-    update_spend_addr();
 
     // TODO check:
     // * validity of address? (though suppose Ethereum might implement it)
@@ -222,7 +227,6 @@ var interrupt_interval = 1000;
 function periodic_interrupt()
 {   
     update_spend_time();
-    update_spend_addr();
     setTimeout(periodic_interrupt, interrupt_interval);
 }
 
@@ -290,3 +294,5 @@ function toggle_manual()
     if( show.hidden ){ ge_set_innerHTML('toggle_manual', '&rarr;Show'); }
     else{ ge_set_innerHTML('toggle_manual', '&rarr;Manual'); }
 }
+
+update_spend_addr();
