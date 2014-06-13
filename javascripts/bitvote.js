@@ -219,7 +219,7 @@ function update_progress()
 function voting(which)
 {
     document.getElementById("voting_whole").hidden = which;
-    document.getElementById("register_button").hidden = !which;
+    document.getElementById("registering_whole").hidden = !which;
 }
 
 
