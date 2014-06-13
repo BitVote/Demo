@@ -210,9 +210,9 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
-p, ul, ol, table, pre, dl {
+/*p, ul, ol, table, pre, dl {
   margin: 0 0 20px;
-}
+}*/
 
 h1, h2, h3 {
   line-height: 1.1;
@@ -271,8 +271,8 @@ table {
 
 th, td {
   text-align: left;
-  padding: 5px 10px;
-  border-bottom: 1px solid #aaa;
+  margin:0px; /* 0.1em;*/
+/* border-bottom: 1px solid #aaa;*/
 }
 
 dt {

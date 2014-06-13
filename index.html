@@ -39,21 +39,26 @@
   <span id="voting_whole">
   
   <table>
-  <tr><td class="note">add</td> <td>CurrentTime:</td>      <td id="current_time"></td></tr>
-  <tr style="border-bottom: 2px"><td class="note">minus</td> <td>Registered Time:</td> <td id="register_time"></td></tr>
-  <tr><td class="note">minus</td> <td>Spent Vote-Time:</td>    <td id="spent_time"></td></tr>
-  <tr><td class="note">equals</td> <td>Available Vote-Time:</td>    <td id="power_time"></td></tr>
+  <tr><td rowspan="4"><br><img src="/images/bitvote_logo_smaller.png" alt="logo" /></td>
+    <td></td>
+    <td class="note">add</td> <td>CurrentTime:</td>      <td id="current_time"></td></tr>
+  <tr style="border-bottom: 2px"><td></td>
+    <td class="note">minus</td> <td>Registered Time:</td> <td id="register_time"></td></tr>
+  <tr><td></td>
+    <td class="note">minus</td> <td>Spent Vote-Time:</td>    <td id="spent_time"></td></tr>
+  <tr><td></td>
+    <td class="note">equals</td> <td>Available Vote-Time:</td>    <td id="power_time"></td></tr>
   </table>
-  
-  <table id="entry_table">
-  <tr><td>Vote-Time:</td><td>
+
+  <table>
+  <tr><td>Vote-Time:</td><td colspan="3">
       <button id="toggle_manual" onclick="toggle_manual();">&rarr;Manual</button>
       <input hidden type="number" id="spend_time" value="0" onkeyup="update_spend_time()" onchange="update_spend_time();">
       <span id="spend_time_show"></span>
       <br> <span id="increment_buttons"></span>
   </td><td id="amount_note"></td></tr>
   <br>
-  <tr><td>http://</td><td>
+  <tr><td>http://</td><td colspan="3">
   <!-- Really we probably want a address input,
        that can do stuff like look at NameReg automatically.
        But also want to have it be an accepted votable.. -->
