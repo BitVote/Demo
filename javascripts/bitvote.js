@@ -202,9 +202,11 @@ function update_progress()
     {
         obj = participated[key];
         if( obj.passed )
-        {    passed_innerHTML += '<tr><td>' + key + '</td><td>' + obj.amount + '</td></tr>'; }
+        {    passed_innerHTML += '<tr><td>' + key + '</td><td>' +
+                                  to_time_string(obj.amount) + '</td></tr>'; }
         else
-        {    progress_innerHTML += '<tr><td>' + key + '</td><td>' + obj.amount + '</td></tr>'; }
+        {    progress_innerHTML += '<tr><td>' + key + '</td><td>' + 
+                                   to_time_string(obj.amount) + '</td></tr>'; }
     }
     if( passed_innerHTML != '' )
     {   ge_set_innerHTML("passed",
