@@ -44,13 +44,6 @@ var vote_address = "TODO";
 //secretToAddress(_a):
 var own_address = "TODO"; 
 
-// NOTE: really inconvenient without good state-of-blockchain tracking.
-var participated = {};
-
-var var_from_time = 0; //eth.getStorageAt(vote_address, own_address);
-function from_time()
-{   return var_from_time; }
-
 function power_available()  // Amount of time available to spend.
 {   return Math.floor(date.getTime()/1000 - from_time()); }
 
@@ -130,35 +123,6 @@ function update_spend_time()
            else
            { ge_set_innerHTML(increment_buttons[i][0], null, ''); }
         }
-    }
-}
-
-/*
-// Will be called when transaction passes. (when entered into some block?)
-function complete_spend(vote_for)
-{
-    return function()
-    {
-       amount_note.innerHTML = ''
-       show_power_time();  // Update free time.
-       participated[vote_for].passed = true;
-       
-       //TODO update the in progress entries.
-    }
-}*/
-
-function pretend_transact(vote_for, amount)
-{  //Lol @ javascript dumb.
-    var_from_time = from_time()/1 + amount/1; // Goes negative..
-}
-
-function do_spend_time(vote_for, amount)
-{   
-    if(amount < power_available())  // Have enough.
-    {//eth.transact(_sec, 0, vote_address, bin(vote_for), 1000, 1, complete_spend(vote_for));
-        pretend_transact(vote_for, amount);
-        participated[vote_for] = {'amount':amount, 'passed':false};
-        update_progress();
     }
 }
 
