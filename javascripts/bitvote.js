@@ -39,21 +39,6 @@ var increment_buttons_p = false;
 var increment_buttons = [["+1min", 60], ["+10min", 600], ["+1hour", 3600], 
                          ["+1day", 86400], ["+1month", 2592000]]
 
-var vote_address = "TODO";
-
-//secretToAddress(_a):
-var own_address = "TODO"; 
-
-function power_available()  // Amount of time available to spend.
-{   return Math.floor(date.getTime()/1000 - from_time()); }
-
-var var_registered = 0;
-function registered()
-{   return var_registered; }
-
-function power_spent()
-{   return from_time()/1 - registered()/1; }
-
 function to_time_string(t, upto)
 {
     s  = Math.floor(t);

@@ -34,3 +34,19 @@ function do_spend_time(vote_for, amount)
         update_progress();
     }
 }
+
+//These count as 'nearer to the back end' too, i suppose.
+var vote_address = "TODO";
+
+//secretToAddress(_a):
+var own_address = "TODO"; 
+
+function power_available()  // Amount of time available to spend.
+{   return Math.floor(date.getTime()/1000 - from_time()); }
+
+var var_registered = 0;
+function registered()
+{   return var_registered; }
+
+function power_spent()
+{   return from_time()/1 - registered()/1; }
