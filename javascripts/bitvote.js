@@ -76,18 +76,23 @@ function notition(element, className, innerHTML)
 
 var old_spend_val = 0;
 var wrong_cnt = 0, wait_time = 4;
+var prev_which = null;
 function update_spend_time_wrong_amount(which)
 {
+    prev_which = which;
     notition(amount_note, 'wrong', which);
     if( !ge('spend_time_show').hidden )
     { spend_time.value = old_spend_val; }
-    wrong_cnt = wait_time;
+    if( which != prev_which )  // Countdown so the thing cannot be shown just in a flash.
+    {   wrong_cnt = wait_time; }
+    else if( wrong_cnt <= 0 ){ wrong_cnt = 1; }
 }
 
 function update_spend_time()
 {     
     update_power_time();
 
+    wrong_cnt -= 1;  // Countdown to zero.
     if( spend_time.value == 0 && spend_time.value!='0' )  //TODO get something decent.
     { return update_spend_time_wrong_amount('Not a number'); 
     }
@@ -101,8 +106,9 @@ function update_spend_time()
     { pct = (100*spend_time.value/power_available()).toString().substr(0,4)
       notition(amount_note, 'note', '(' + pct + '%)');
       old_spend_val = spend_time.value;
+      prev_which = null;
     }
-    else{ wrong_cnt -= 1; }  // Countdown to zero.
+    
     ge_set_innerHTML('spend_time_show', to_time_string(spend_time.value));
     if( increment_buttons_p )
     {   t = power_available()/1 - spend_time.value/1;
