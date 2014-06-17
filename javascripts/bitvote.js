@@ -79,12 +79,13 @@ var wrong_cnt = 0, wait_time = 4;
 function update_spend_time_wrong_amount(which)
 {
     notition(amount_note, 'wrong', which);
-    spend_time.value = old_spend_val;
+    if( !ge('spend_time_show').hidden )
+    { spend_time.value = old_spend_val; }
     wrong_cnt = wait_time;
 }
 
 function update_spend_time()
-{   
+{     
     update_power_time();
 
     if( spend_time.value == 0 && spend_time.value!='0' )  //TODO get something decent.
@@ -173,7 +174,6 @@ function voting(which)
     document.getElementById("voting_whole").hidden = which;
     document.getElementById("registering_whole").hidden = !which;
 }
-
 
 var interrupt_interval = 1000;
 function periodic_interrupt()
