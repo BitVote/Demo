@@ -89,11 +89,14 @@ function update_spend_time()
     update_power_time();
 
     if( spend_time.value == 0 && spend_time.value!='0' )  //TODO get something decent.
-    { return update_spend_time_wrong_amount('Not a number'); }
-    else if( spend_time.value < 0 )  // Reset stuff that is disallowed.
-    { return update_spend_time_wrong_amount('Negative disallowed'); }
+    { return update_spend_time_wrong_amount('Not a number'); 
+    }
+    else if( spend_time.value < 0 ) 
+    { return update_spend_time_wrong_amount('Negative disallowed'); 
+    }
     else if( spend_time.value > power_available() )
-    { return update_spend_time_wrong_amount('Dont have that much'); }
+    { return update_spend_time_wrong_amount('Dont have that much'); 
+    }
     else if( wrong_cnt <= 0 )
     { pct = (100*spend_time.value/power_available()).toString().substr(0,4)
       notition(amount_note, 'note', '(' + pct + '%)');
