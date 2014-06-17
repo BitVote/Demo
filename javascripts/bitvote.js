@@ -83,8 +83,8 @@ function update_spend_time_wrong_amount(which)
     notition(amount_note, 'wrong', which);
     if( !ge('spend_time_show').hidden )
     { spend_time.value = old_spend_val; }
-    if( which != prev_which )  // Countdown so the thing cannot be shown just in a flash.
-    {   wrong_cnt = wait_time; }
+    if( which != prev_which )    // Countdown so the thing cannot be shown just in a flash.
+    {   wrong_cnt = wait_time; } // (should be 'refactored', if i need more than one)
     else if( wrong_cnt <= 0 ){ wrong_cnt = 1; }
 }
 
