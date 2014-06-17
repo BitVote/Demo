@@ -139,8 +139,9 @@ function spend_time_button()
     // * against spending limit of topic?
     if( participated[spend_addr.value] == null )
     { do_spend_time(spend_addr.value, spend_time.value); }
-    spend_addr.value = ''
-    update_spend_addr()
+    spend_time.value = '0' ; //Reset the amount.
+    spend_addr.value = '';
+    update_spend_addr();
 }
 
 function update_progress()
