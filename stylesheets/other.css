@@ -1,0 +1,12 @@
+.bitcoin {
+  display: inline-block;
+  background-color: white;
+  border: 1px solid #BBF;
+  padding: 0.2em 0.5em;
+  border-radius: 0.5em;
+  vertical-align:middle;
+  font-weight:bold;
+  font-size: 70%;
+  color:#AAF;
+}
+.bitcoinlink{ color:#55F }
