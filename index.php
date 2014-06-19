@@ -139,7 +139,8 @@
   and Leah Chase (<a href="https://twitter.com/LeahxPearl" class="user-mention">@leahxpearl</a>) 
   founded BitVote in 2012 during the SOPA Blackout. 
   In 2014, BitVote began collaborating with 
-  Jasper den Ouden (<a href="https://github.com/o-jasper" class="user-mention">@o-jasper</a>), 
+  Jasper den Ouden (<a href="https://github.com/o-jasper" class="user-mention">@o-jasper</a>),
+  Ethan Buchman (<a href="https://github.com/ebuchman" class="user-mention">@ebuchman</a>)
   Stephan Tual (<a href="https://github.com/stephantual" class="user-mention">@stephantual</a>) 
   and Vlad Zamfir (<a href="https://twitter.com/VladZamfir" class="user-mention">@vladzamfir</a>)
   of Ethereum.
