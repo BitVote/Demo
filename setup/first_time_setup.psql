@@ -1,0 +1,14 @@
+CREATE USER :usr_name WITH PASSWORD :password;
+CREATE TABLE votes (
+        url    varchar(128),
+	votes	int
+);
+ 
+CREATE TABLE users (
+        id      varchar(128),
+        time_spent int,
+        time_reg  int
+);
+GRANT ALL PRIVILEGES ON DATABASE bitvotedb to :usr_name;
+GRANT ALL PRIVILEGES ON TABLE votes TO :usr_name;
+GRANT ALL PRIVILEGES ON TABLE users TO :usr_name;
