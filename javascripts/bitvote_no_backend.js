@@ -13,7 +13,6 @@ var var_from_time = 0; //
 function from_time()
 {   return var_from_time; }
 
-//NOTE: when things change, it should update this thing.,
 var participated = {};
 
 //Pretends that a transactions, moving the vote-time forward by the amount sent.
@@ -24,8 +23,6 @@ function pretend_transact(vote_for, amount)
 }
 
 //Pretends to actually spends the vote-time.
-// something like
-// eth.transact(_sec, 0, vote_address, bin(vote_for), 1000, 1, complete_spend(vote_for));
 function do_spend_time(vote_for, amount)
 {   
     if(amount < power_available())  // Have enough.
@@ -35,11 +32,9 @@ function do_spend_time(vote_for, amount)
     }
 }
 
-//These count as 'nearer to the back end' too, i suppose.
-var vote_address = "TODO";
-
+var bitvote_address = "TODO"; // bitvotes address to contact.
 //secretToAddress(_a):
-var own_address = "TODO"; 
+var own_address = "TODO";   //Own address.
 
 function power_available()  // Amount of time available to spend.
 {   return Math.floor(date.getTime()/1000 - from_time()); }
