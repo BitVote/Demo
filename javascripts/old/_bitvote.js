@@ -1,4 +1,5 @@
-//Note; just mucked up for now. But what isn't?
+//Note; just mucked up for now.
+
 
 var date = new Date();
 
@@ -63,15 +64,16 @@ function to_time_string(t, upto)
 function update_power_time()
 {   
     date = new Date();
+    //registered_date = new Date(1000*registered())
     registered_date = new Date(1000*reg_time)
     ge_set_innerHTML("register_time", registered_date.toLocaleString());
     ge_set_innerHTML("power_time",    to_time_string(power_available()));
-    ge_set_innerHTML("spent_time",    to_time_string(spent_time));
+    ge_set_innerHTML("spent_time",    to_time_string(power_spent()));
     ge_set_innerHTML("current_time",  date.toLocaleString());
 }
 
 function power_available()  // Amount of time available to spend.
-{   return Math.floor(date.getTime()/1000 - reg_time - spent_time); }
+{   return Math.floor(date.getTime()/1000 - spent_time); }
 
 function power_spent()
 {   return from_time()/1 - registered()/1; }
@@ -157,11 +159,7 @@ function spend_time_button()
     // * against accidental repeat?
     // * against spending limit of topic?
     if( participated[spend_addr.value] == null )
-    { 
-	if (spend_time.value < power_available())
-		cast_vote(spend_addr.value, spend_time.value, get_user_ip()); 
-    }
-
+    { do_spend_time(spend_addr.value, spend_time.value); }
     spend_time.value = '0' ; //Reset the amount.
     spend_addr.value = '';
     update_spend_addr();
@@ -231,10 +229,18 @@ function register()
 
     //check if user exists using ip
     usr_id = get_user_ip(); 
-    cur_time = date.getTime()/1000;
-    lookup_user(usr_id, cur_time);
-}
+    usr_details = lookup_user(usr_id);
+    if (usr_details['usr']){
+	spent_time = usr_details['spent'];
+	reg_time = usr_details['reg'];
+	
+    }
 
+    update_power_time();
+    create_increment_buttons();
+    
+    periodic_interrupt();
+}
 
 voting(from_time() == 0);
 spend_time.value= old_spend_val;
@@ -272,22 +278,3 @@ function toggle_manual()
 }
 
 update_spend_addr();
-
-
-// callbacks from ajax requests
-function _lookup_user(usr_details){
-    console.log(usr_details);
-    spent_time = usr_details['spent'];
-    reg_time = usr_details['reg'];
-    update_power_time();
-    create_increment_buttons();
-    periodic_interrupt();
-}
-
-function _cast_vote(response){
-    spent = parseInt(response['spent']);
-    spent_time = parseInt(spent_time) + spent;
-    participated[response['url']] = {'amount':spent, 'passed':false};
-    update_progress();
-}
-

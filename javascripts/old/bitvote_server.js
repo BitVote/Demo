@@ -12,8 +12,7 @@ function new_request() {
         return new ActiveXObject("Microsoft.XMLHTTP");
 }
 
-//TODO
-// * Havent figured out what to send yet.
+// * POST when writing to database, GET when reading
 // * 
 function httprequest(what, state_change, send, how) {
     if( how == null ) {
@@ -70,8 +69,10 @@ var bitvote_address = "TODO"; // bitvotes address to contact.
 //secretToAddress(_a):
 var own_address = "TODO";   //Own address.
 
+/*
 function power_available()  // Amount of time available to spend.
 {   return Math.floor(date.getTime()/1000 - from_time()); }
 
 function power_spent()
 {   return from_time()/1 - registered()/1; }
+*/
