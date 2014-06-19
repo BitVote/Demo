@@ -37,7 +37,7 @@
 
 <span id="registering_whole">
   <p style="text-align:center">
-  <button style="tex-align:center" id="register_button" onclick="register()"><br><p>START HERE</p><img src="/images/bitvote_logo_small.png" alt="logo" /><br><br><br></button>
+  <button style="tex-align:center" id="register_button" onclick="register()"><br><p>START HERE*</p><img src="/images/bitvote_logo_small.png" alt="logo" /><br><br><br></button>
 
   </p>
 </span>
@@ -83,7 +83,7 @@
   <script src="javascripts/bitvote_no_backend.js"></script>
   <script src="javascripts/bitvote.js"></script>
   
-
+*By clicking, I temporarily pledge not to troll, double-vote or sabotage bitvote at least until the december release. learn more <a href="https://github.com/BitVote/bitvote.github.io/wiki/Pledge">here</a>
  <pre><code>VoteChain Demo<a href="https://www.youtube.com/watch?v=9pSh0VAVYn4">*</a> (Centralized & on-the-honor-system version)
  <?php list_vote_chain(); ?>
 <!--
