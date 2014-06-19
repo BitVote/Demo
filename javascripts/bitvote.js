@@ -5,6 +5,10 @@ var date = new Date();
 
 var elements = {}
 
+var spent_time = 0;
+var reg_time = 0;
+
+
 function ge(element_id)  // Assumes ids do not get added afterwards!
 {  got = elements[element_id]
    if(got == null)
@@ -60,12 +64,18 @@ function to_time_string(t, upto)
 function update_power_time()
 {   
     date = new Date();
-    registered_date = new Date(1000*registered())
+    registered_date = new Date(1000*reg_time)
     ge_set_innerHTML("register_time", registered_date.toLocaleString());
     ge_set_innerHTML("power_time",    to_time_string(power_available()));
-    ge_set_innerHTML("spent_time",    to_time_string(power_spent()));
+    ge_set_innerHTML("spent_time",    to_time_string(spent_time));
     ge_set_innerHTML("current_time",  date.toLocaleString());
 }
+
+function power_available()  // Amount of time available to spend.
+{   return Math.floor(date.getTime()/1000 - reg_time - spent_time); }
+
+function power_spent()
+{   return from_time()/1 - registered()/1; }
 
 function notition(element, className, innerHTML)
 {
@@ -148,7 +158,11 @@ function spend_time_button()
     // * against accidental repeat?
     // * against spending limit of topic?
     if( participated[spend_addr.value] == null )
-    { do_spend_time(spend_addr.value, spend_time.value); }
+    { 
+	if (spend_time.value < power_available())
+		cast_vote(spend_addr.value, spend_time.value, get_user_ip()); 
+    }
+
     spend_time.value = '0' ; //Reset the amount.
     spend_addr.value = '';
     update_spend_addr();
@@ -215,10 +229,11 @@ function register()
 {   var_from_time = date.getTime()/1000;
     var_registered = var_from_time;
     voting(false);
-    update_power_time();
-    create_increment_buttons();
-    
-    periodic_interrupt();
+
+    //check if user exists using ip
+    usr_id = get_user_ip(); 
+    cur_time = date.getTime()/1000;
+    lookup_user(usr_id, cur_time);
 }
 
 voting(from_time() == 0);

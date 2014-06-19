@@ -1,4 +1,5 @@
  <!doctype html>
+<?php include("bitvote.php") ?>
   
   
   <html>
@@ -13,6 +14,8 @@
       <link rel="stylesheet" href="stylesheets/other.css">
 
       <script src="javascripts/scale.fix.js"></script>
+      <script src="javascripts/ajax.js"></script>
+      <script> function get_user_ip() {var usr_id = document.getElementById('user_ip').value; return usr_id;}</script>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   
       <!--[if lt IE 9]>
@@ -20,7 +23,7 @@
       <![endif]-->
     </head>
     <body>
-    
+      <input id='user_ip' type="hidden" value="<?php get_users_ip(); //get user ip to use as usr_id?>"> </input> 
       <div class="wrapper">
         <header>
           <h1>BitVote Demo</h1>
@@ -82,7 +85,8 @@
   
 
  <pre><code>VoteChain Demo<a href="https://www.youtube.com/watch?v=9pSh0VAVYn4">*</a> (Centralized & on-the-honor-system version)
-
+ <?php list_vote_chain(); ?>
+<!--
 00:01:00,http://iloveyou.AaronBale.com
 00:01:00,http://stephan_go_get_my_coffee.com
 00:01:00,http://jasper_im_not_your_minion.com
@@ -101,6 +105,7 @@
 00:04:00,http://en.wikipedia.org/wiki/Pharmaceutical_industry#Controversy_about_drug_marketing_and_lobbying
 00:01:00,http://OrganicConsumers.org/Monsanto
 00:01:00,http://coinculture.info
+-->
   </code></pre>
 <br />
 <img src="https://cloud.githubusercontent.com/assets/7649144/3320487/c643315e-f72a-11e3-8244-85b58f8535a6.png" alt="plan" />
