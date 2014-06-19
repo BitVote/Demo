@@ -29,14 +29,23 @@ function seconds_to_time($seconds){
   return pad($hours, 2) . ":" . pad($minutes, 2) . ":" . pad($seconds, 2);
 }
 
+function returns_key($a){
+  return $a[0];
+}
+
 function list_vote_chain(){
   echo "\n";
   if (($con = connect_db('auth.txt'))){
 	$sql = "SELECT * FROM votes";
 	$result = pg_query($con, $sql);
+	$votes = array();
 	while($row = pg_fetch_array($result)){
 	  $url = $row[0];
 	  $time = $row[1]; // convert to time format
+	  $votes[$url] = (int) $time;
+	}
+	arsort($votes);
+	foreach ($votes as $url => $time){
 	  $time_str = seconds_to_time($time);
 	  echo "$time_str <a href='http://$url'>http://$url</a>\n";
 	}
