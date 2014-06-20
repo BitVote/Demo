@@ -109,7 +109,7 @@
 -->
   </code></pre>
 <br />
-<img src="https://cloud.githubusercontent.com/assets/7649144/3320487/c643315e-f72a-11e3-8244-85b58f8535a6.png" alt="plan" />
+<img src="https://cloud.githubusercontent.com/assets/7649144/3343417/6dddcbd4-f89f-11e3-9492-357692788f72.png" alt="plan" />
 <br />
 <br />
   <iframe width="560" height="315" src="//www.youtube.com/embed/z-BtgF3oqoA" frameborder="0" allowfullscreen></iframe>
