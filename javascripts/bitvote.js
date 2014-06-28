@@ -5,8 +5,6 @@ var date = new Date();
 var elements = {}
 
 var spent_time = 0;
-var reg_time = 0;
-
 
 function ge(element_id)  // Assumes ids do not get added afterwards!
 {  got = elements[element_id]
@@ -63,7 +61,7 @@ function to_time_string(t, upto)
 function update_power_time()
 {   
     date = new Date();
-    registered_date = new Date(1000*reg_time)
+    registered_date = new Date(1000*usr_details['reg'])
     ge_set_innerHTML("register_time", registered_date.toLocaleString());
     ge_set_innerHTML("power_time",    to_time_string(power_available()));
     ge_set_innerHTML("spent_time",    to_time_string(spent_time));
@@ -71,7 +69,7 @@ function update_power_time()
 }
 
 function power_available()  // Amount of time available to spend.
-{   return Math.floor(date.getTime()/1000 - reg_time - spent_time); }
+{   return Math.floor(date.getTime()/1000 - usr_details['reg'] - spent_time); }
 
 function power_spent()
 {   return from_time()/1 - registered()/1; }
@@ -121,11 +119,11 @@ function update_spend_time()
     ge_set_innerHTML('spend_time_show', to_time_string(spend_time.value));
     if( increment_buttons_p )
     {   t = power_available()/1 - spend_time.value/1;
-        for(var i = 0 ; i< increment_buttons.length ; i++)
-        {  if( t < increment_buttons[i][1] ) // Not enough for adding this much.
-           { ge_set_innerHTML(increment_buttons[i][0], null, 'grey_button'); }
-           else
-           { ge_set_innerHTML(increment_buttons[i][0], null, ''); }
+        for(var i = 0 ; i< increment_buttons.length ; i++) {
+            if( t < increment_buttons[i][1] ) // Not enough for adding this much.
+            { ge_set_innerHTML(increment_buttons[i][0], null, 'grey_button'); }
+            else
+            { ge_set_innerHTML(increment_buttons[i][0], null, ''); }
         }
     }
 }
@@ -143,11 +141,10 @@ function update_spend_addr()
 
 function spend_time_button()
 {
-    if( spend_addr.value == '' )  // Voting to nothing makes no sense.
-    {   spend_addr_note.className = 'wrong';
+    if( spend_addr.value == '' ) {  // Voting to nothing makes no sense.
+        spend_addr_note.className = 'wrong';
         return; 
-    }
-    if( spend_time.value == 0 ) //Cannot spend zero amount.
+    } else if( spend_time.value == 0 ) //Cannot spend zero amount.
     {   return update_spend_time_wrong_amount('Cannot spend zero vote-time'); }
 
     update_spend_time();
@@ -156,10 +153,9 @@ function spend_time_button()
     // * validity of address? (though suppose Ethereum might implement it)
     // * against accidental repeat?
     // * against spending limit of topic?
-    if( participated[spend_addr.value] == null )
-    { 
-	if (spend_time.value < power_available())
-		cast_vote(spend_addr.value, spend_time.value, get_user_ip()); 
+    if( participated[spend_addr.value] == null ) { 
+	      if (spend_time.value < power_available())
+		        cast_vote(spend_addr.value, spend_time.value, get_user_ip()); 
     }
 
     spend_time.value = '0' ; //Reset the amount.
@@ -167,39 +163,37 @@ function spend_time_button()
     update_spend_addr();
 }
 
-function update_progress()
-{
+function update_progress() {
     progress_innerHTML = '';
     passed_innerHTML = '';
     for(var key in participated)
     {
         obj = participated[key];
-        if( obj.passed )
-        {    passed_innerHTML += '<tr><td>' + key + '</td><td>' +
-                                  to_time_string(obj.amount) + '</td></tr>'; }
-        else
-        {    progress_innerHTML += '<tr><td>' + key + '</td><td>' + 
-                                   to_time_string(obj.amount) + '</td></tr>'; }
+        if( obj.passed ) {
+            passed_innerHTML += '<tr><td>' + key + '</td><td>' +
+                                 to_time_string(obj.amount) + '</td></tr>'; 
+        } else {
+            progress_innerHTML += '<tr><td>' + key + '</td><td>' + 
+                                   to_time_string(obj.amount) + '</td></tr>'; 
+        }
     }
-    if( passed_innerHTML != '' )
-    {   ge_set_innerHTML("passed",
+    if( passed_innerHTML != '' ) {
+        ge_set_innerHTML("passed",
                          '<h4>Votes arrived</h4><table>' + passed_innerHTML + '</table>');
     }
-    if( progress_innerHTML != '' )
-    {   ge_set_innerHTML("progress",
+    if( progress_innerHTML != '' ) {
+        ge_set_innerHTML("progress",
                          '<h4>Votes underway</h4><table>' + progress_innerHTML + '</table>');
     }
 }
 
-function voting(which)
-{
+function voting(which) {
     document.getElementById("voting_whole").hidden = which;
     document.getElementById("registering_whole").hidden = !which;
 }
 
 var interrupt_interval = 1000;
-function periodic_interrupt()
-{   
+function periodic_interrupt() {   
     update_spend_time();
     setTimeout(periodic_interrupt, interrupt_interval);
 }
@@ -207,8 +201,8 @@ function periodic_interrupt()
 function create_increment_buttons()
 {
     element = document.getElementById("increment_buttons");
-    if( element!=null )
-    {   increment_buttons_p = true;
+    if( element!=null ) {
+        increment_buttons_p = true;
         string = "";
         for(var i = 0 ; i< increment_buttons.length ; i++)
         {  info = increment_buttons[i];
@@ -224,8 +218,8 @@ function create_increment_buttons()
     }
 }
 
-function register()
-{   var_from_time = date.getTime()/1000;
+function register() {
+    var_from_time = date.getTime()/1000;
     var_registered = var_from_time;
     voting(false);
 
@@ -236,21 +230,20 @@ function register()
 }
 
 
-voting(from_time() == 0);
 spend_time.value= old_spend_val;
 
 // Buttons!
 
 //Add amounts.
-function add_amount(amount)
-{   spend_time.value = spend_time.value/1 + amount;
+function add_amount(amount) {
+    spend_time.value = spend_time.value/1 + amount;
     update_spend_time();
 }
 
 
 var cur_fraction = 0;  //Fractions that rotate/
-function rotating_button_to_fraction()
-{   fractions = [10, 25, 50, 100];
+function rotating_button_to_fraction() {
+    fractions = [10, 25, 50, 100];
 
     spend_time.value = Math.round(fractions[cur_fraction]*power_available()/100);
     cur_fraction += 1;
@@ -262,8 +255,7 @@ function rotating_button_to_fraction()
     update_spend_time();
 }
 
-function toggle_manual()
-{
+function toggle_manual() {
     spend_time.hidden = !spend_time.hidden;
     show = ge('spend_time_show');
     show.hidden = !spend_time.hidden;
@@ -278,7 +270,10 @@ update_spend_addr();
 function _lookup_user(usr_details){
     console.log(usr_details);
     spent_time = usr_details['spent'];
-    reg_time = usr_details['reg'];
+
+    date = new Date();
+    voting(usr_details['reg'] + 10 < data.seconds);
+
     update_power_time();
     create_increment_buttons();
     periodic_interrupt();
