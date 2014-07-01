@@ -4,8 +4,6 @@ var date = new Date();
 
 var elements = {}
 
-var spent_time = 0;
-
 function ge(element_id)  // Assumes ids do not get added afterwards!
 {  got = elements[element_id]
    if(got == null)
@@ -64,12 +62,12 @@ function update_power_time()
     registered_date = new Date(1000*usr_details['reg'])
     ge_set_innerHTML("register_time", registered_date.toLocaleString());
     ge_set_innerHTML("power_time",    to_time_string(power_available()));
-    ge_set_innerHTML("spent_time",    to_time_string(spent_time));
+    ge_set_innerHTML("spent_time",    to_time_string(usr_details['spent']));
     ge_set_innerHTML("current_time",  date.toLocaleString());
 }
 
 function power_available()  // Amount of time available to spend.
-{   return Math.floor(date.getTime()/1000 - usr_details['reg'] - spent_time); }
+{   return Math.floor(date.getTime()/1000 - usr_details['reg'] - usr_details['spent']); }
 
 function power_spent()
 {   return from_time()/1 - registered()/1; }
@@ -265,11 +263,10 @@ function toggle_manual() {
 
 update_spend_addr();
 
-
 // callbacks from ajax requests
-function _lookup_user(usr_details){
-    console.log(usr_details);
-    spent_time = usr_details['spent'];
+function _lookup_user(_usr_details) {
+    console.log(_usr_details);
+    usr_details = _usr_details;
 
     date = new Date();
     voting(usr_details['reg'] + 10 < data.seconds);
@@ -279,9 +276,9 @@ function _lookup_user(usr_details){
     periodic_interrupt();
 }
 
-function _cast_vote(response){
+function _cast_vote(response) {
     spent = parseInt(response['spent']);
-    spent_time = parseInt(spent_time) + spent;
+    usr_details['spent'] = parseInt(usr_details['spent']) + spent;
     participated[response['url']] = {'amount':spent, 'passed':false};
     update_progress();
 }
