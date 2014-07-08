@@ -1,15 +1,6 @@
-// 'Middle end' between the backend and front end.
-// Basically, the thing that talks to Ethereum, or in the PoC versions,
-// whatever we use there.
+//TODO unlike the name, it is currently actually used..
 
-// NOTE: really inconvenient without good state-of-blockchain tracking.
-
-// Current idea is that there is a 'moving time' which starts at the current
-// time, and moves forward by the amount voted. However, it may never pass it.
-
-// Pretends to get the current time the forward-moving timer is at.
-// (something like eth.getStorageAt(vote_address, own_address))
-var var_from_time = 0; //
+var var_from_time = 0;
 function from_time()
 {   return var_from_time; }
 

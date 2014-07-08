@@ -39,29 +39,35 @@ func sanitize(in string) string { //For handling stuff in the addresses.
 	}
 }
 
+func reg_id(id string) string { return fmt.Sprintf("reg_%s", id) }
 
 func register(client *redis.Client, id string) (int, error) {
-	got, _ := _get_mov_time(client, id)
+	got, _ := _get_spent_time(client, id)
 	if got == "" {
-		now_t := time.Now().Unix()
-		setstr := fmt.Sprintf("%d", now_t)
-		client.Set(id, setstr).Result()
-		return int(now_t), nil //strconv.Atoi(str)
+		client.Set(id, "0").Result()
+		cur_time_str := fmt.Sprintf("%d", time.Now().Unix())
+		client.Set(reg_id(id), cur_time_str).Result()
+		return int(0), nil //strconv.Atoi(str)
 	}
 	return strconv.Atoi(got)
 }
 
 
-func _get_mov_time(client *redis.Client, id string) (string, error) {
+func _get_spent_time(client *redis.Client, id string) (string, error) {
 	return client.Get(id).Result()
 }
-func get_mov_time(client *redis.Client, id string) (int, error) {
-	mov_time, _ := _get_mov_time(client, id)
+func get_spent_time(client *redis.Client, id string) (int, error) {
+	mov_time, _ := _get_spent_time(client, id)
 	if mov_time == "" {
 		return register(client, id)
 	} else {
 		return strconv.Atoi(mov_time)
 	}
+}
+
+func get_reg_time(client *redis.Client, id string) (int, error) {
+	x, _ := client.Get(reg_id(id)).Result()
+	return strconv.Atoi(x)
 }
 
 func figure_id(remoteaddr string, given string, testing bool) string {
@@ -96,23 +102,26 @@ func main() {
 		amount, err := strconv.Atoi(ia)
 		if err != nil { return }
 
-		moving_time, _ := get_mov_time(client, from_id)
+		spent_time, _ := get_spent_time(client, from_id)
+		reg_time, _ := get_reg_time(client, from_id)
 		now := int(time.Now().Unix())
 
-		if now - moving_time > amount {
+		if now - reg_time - spent_time >= amount {
 
 			// Take voting power from one.(the plus is correct, moves the moving time forward)
-			post_moving_time, _ := client.IncrBy(from_id, int64(amount)).Result()
-			if int64(post_moving_time) - int64(moving_time) != int64(amount) {
+			post_spent_time, _ := client.IncrBy(from_id, int64(amount)).Result()
+			if int(post_spent_time) - spent_time != amount {
 				log.Println("Warning, values not adding properly!",
-					          moving_time, "-", post_moving_time, "!=", amount)
+					          post_spent_time, "-", spent_time, "!=", amount)
 			}
-			fmt.Fprintln(w, post_moving_time)
-
 			recipient := strip_protocol(ir)  // Add it to the other.
 			client.IncrBy(recipient, +int64(amount)).Result()
+			fmt.Fprintf(w, "{\"spent\":%v, \"reg\":%v, \"success\":true, id:\"%s\"}", 
+				post_spent_time, reg_time, from_id)
 		} else {
-			log.Println(w, "Insufficient voting time; ", now, "-", moving_time, ">", amount)
+			log.Println(w, "Insufficient voting time; ", reg_time, "-", spent_time, "<", amount)
+			fmt.Fprintf(w, "{\"spent\":%v, \"reg\":%v, \"success\":false, \"id\":\"%s\"}",  
+				spent_time, reg_time, from_id)
 		}
 	})
 
@@ -124,8 +133,9 @@ func main() {
 	http.HandleFunc("/lookup_user", func(w http.ResponseWriter, r *http.Request) {
 
 		from_id := figure_id(r.RemoteAddr, sanitize(r.FormValue("id")), testing)
-		mov_time, _ := get_mov_time(client, from_id)
-		fmt.Fprintln(w, mov_time)
+		spent_time, _ := get_spent_time(client, from_id)
+		reg_time, _ := get_reg_time(client, from_id)
+		fmt.Fprintf(w, "{\"spent\":%v, \"reg\":%v, \"id\":\"%s\"}", spent_time, reg_time, from_id)
 	})
 
 	http.HandleFunc("/topics", func(w http.ResponseWriter, r *http.Request) {
@@ -134,9 +144,11 @@ func main() {
 		//List all topics with amounts.
 	})
 
-	http.HandleFunc("/ska", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "../plain.html")
-	})
+//	http.Handle("/", http.FileServer(http.Dir(".")))
+	http.Handle("/javascripts/", http.FileServer(http.Dir("..")))
+	http.Handle("/images/", http.FileServer(http.Dir("..")))
+	http.Handle("/stylesheets/", http.FileServer(http.Dir("..")))
+	http.Handle("/", http.FileServer(http.Dir("files/")))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

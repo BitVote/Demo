@@ -2,6 +2,7 @@
 
 var date = new Date();
 
+var usr_details = {}
 var elements = {}
 
 function ge(element_id)  // Assumes ids do not get added afterwards!
@@ -153,7 +154,7 @@ function spend_time_button()
     // * against spending limit of topic?
     if( participated[spend_addr.value] == null ) { 
 	      if (spend_time.value < power_available())
-		        cast_vote(spend_addr.value, spend_time.value, get_user_ip()); 
+		        cast_vote(spend_addr.value, spend_time.value, get_user_id()); 
     }
 
     spend_time.value = '0' ; //Reset the amount.
@@ -222,7 +223,7 @@ function register() {
     voting(false);
 
     //check if user exists using ip
-    usr_id = get_user_ip(); 
+    usr_id = get_user_id(); 
     cur_time = date.getTime()/1000;
     lookup_user(usr_id, cur_time);
 }
@@ -269,7 +270,7 @@ function _lookup_user(_usr_details) {
     usr_details = _usr_details;
 
     date = new Date();
-    voting(usr_details['reg'] + 10 < data.seconds);
+    voting(usr_details['reg'] + 10 < date.seconds);
 
     update_power_time();
     create_increment_buttons();
