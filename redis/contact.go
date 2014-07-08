@@ -40,12 +40,25 @@ func sanitize(in string) string { //For handling stuff in the addresses.
 }
 
 
+func register(client *redis.Client, id string) (int, error) {
+	got, _ := _get_mov_time(client, id)
+	if got == "" {
+		now_t := time.Now().Unix()
+		setstr := fmt.Sprintf("%d", now_t)
+		client.Set(id, setstr).Result()
+		return int(now_t), nil //strconv.Atoi(str)
+	}
+	return strconv.Atoi(got)
+}
+
+
+func _get_mov_time(client *redis.Client, id string) (string, error) {
+	return client.Get(id).Result()
+}
 func get_mov_time(client *redis.Client, id string) (int, error) {
-	mov_time, _ := client.Get(id).Result()
+	mov_time, _ := _get_mov_time(client, id)
 	if mov_time == "" {
-		setstr := fmt.Sprintf("%d", time.Now().Unix())
-		str, _ := client.Set(id, setstr).Result()
-		return strconv.Atoi(str)
+		return register(client, id)
 	} else {
 		return strconv.Atoi(mov_time)
 	}
@@ -73,7 +86,7 @@ func main() {
 	})
 	defer client.Close()
 
-	http.HandleFunc("/vote", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/spend_time", func(w http.ResponseWriter, r *http.Request) {
 		ia, ir := sanitize(r.FormValue("a")), sanitize(r.FormValue("r"))
 		from_id := figure_id(r.RemoteAddr, sanitize(r.FormValue("id")), testing)
 
@@ -90,20 +103,25 @@ func main() {
 
 			// Take voting power from one.(the plus is correct, moves the moving time forward)
 			post_moving_time, _ := client.IncrBy(from_id, int64(amount)).Result()
-			if int64(moving_time) - int64(post_moving_time) != int64(amount) {
+			if int64(post_moving_time) - int64(moving_time) != int64(amount) {
 				log.Println("Warning, values not adding properly!",
-					moving_time, "-", post_moving_time, "!=", amount)
+					          moving_time, "-", post_moving_time, "!=", amount)
 			}
-			fmt.Fprintf(w, "%l", post_moving_time)
+			fmt.Fprintln(w, post_moving_time)
 
 			recipient := strip_protocol(ir)  // Add it to the other.
 			client.IncrBy(recipient, +int64(amount)).Result()
 		} else {
-			fmt.Fprintf(w, "Insufficient voting time; ", now, "-", moving_time, ">", amount)
+			log.Println(w, "Insufficient voting time; ", now, "-", moving_time, ">", amount)
 		}
 	})
 
-	http.HandleFunc("/get_moving_time", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+		val, _ := register(client, figure_id(r.RemoteAddr, sanitize(r.FormValue("id")), testing))
+		fmt.Fprintln(w, val)
+	})
+
+	http.HandleFunc("/lookup_user", func(w http.ResponseWriter, r *http.Request) {
 
 		from_id := figure_id(r.RemoteAddr, sanitize(r.FormValue("id")), testing)
 		mov_time, _ := get_mov_time(client, from_id)
@@ -114,6 +132,10 @@ func main() {
 		// Number requested.(top first
 		fmt.Fprintf(w, "N %q\n", string(r.FormValue("N")))
 		//List all topics with amounts.
+	})
+
+	http.HandleFunc("/ska", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../plain.html")
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
