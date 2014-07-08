@@ -14,7 +14,7 @@
       <link rel="stylesheet" href="stylesheets/other.css">
 
       <script src="javascripts/scale.fix.js"></script>
-      <script src="javascripts/ajax.js"></script>
+      <script src="javascripts/php_ajax.js"></script>
       <script> function get_user_ip() {var usr_id = document.getElementById('user_ip').value; return usr_id;}</script>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   
