@@ -3,12 +3,12 @@ shared:
     OnePerID = 0x00
     OnePerIDSet = 0x20
     TopicI = 0x40
-    TopicSz = 224 // == 32*7
+// 224 == 32*7, it is a lot, in the future likely 32, and magnet/swarm/contract links.
+    TopicSz = 224
     
     TopicStartI = 0x60
     
     HALFWAY=340282366920938463463374607431768211456
-    
     LARGE = 1152921504606846976
 init:
     contract.storage[OnePerID] = 0              // One per ID. (initially no one)
@@ -21,7 +21,6 @@ code:
             return("low address")
         
         if msg.datasize == 2:
-            
             if msg.data[0] == "register":
                 got = contract.storage[msg.data[1]]
                 if got:
