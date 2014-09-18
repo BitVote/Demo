@@ -54,22 +54,23 @@ def non_exist_vote_count(j=None):
     if not j:
         j = (i_store(0x40) - 0x60)/224
     ae(s.send(t.k9, c, 0, [i("vote_count"), j]),
-        [i("That topic doesnt exist yet.")], "getting vote count nonexistance failed.")
+        [i("That topic doesnt exist yet.")],
+        "getting vote count nonexistance failed.")
 
 def non_exist_vote(j=None):
     if not j:
         j = (i_store(0x40) - 0x60)/224
-    ae(s.send(t.k9, c, 0, [i("vote"), j, randrange(0,10)]), [i("That topic doesnt exist yet.")])
+    ae(s.send(t.k9, c, 0, [i("vote"), j, randrange(0,10)]),
+       [i("That topic doesnt exist yet.")])
+
+def expect_topic_count(n):
+    assert i_store(0x40) == 0x60 + 224*n
+    ae(s.send(t.k9, c, 0, [i("topic_count")]), [n])
+    
 
 def too_long_topic():
-#    list = 0
-#    for i in range(224 + randrange(1,10)):
-#        list.append("bla")
     ae(s.send(t.k9, c, 0, map(lambda i : i, range(224 + randrange(1,10)))),
        [i("too long topic string")])
-
-# def not_registered(addr):
-#    s.send(addr, [i("vote"),
 
 def check():  # TODO this would be better with 'stateless call'
     # Smaller than large.
@@ -81,6 +82,7 @@ def check():  # TODO this would be better with 'stateless call'
     ae(s.send(t.k9, c, 0, [1, 2]), [i("anyone bad 1")])
     ae(s.send(t.k9, c, 0, [1, 2, 3]), [i("anyone bad 2")])
     ae(s.send(t.k9, c, 0, []), [i("anyone bad 3")])
+    ae(s.send(t.k9, c, 0, [4]), [i("anyone bad 4")])
 
     # Ways you cannot set the one per ID.
     ae(s.send(t.k0, c, 0, []), [i("OnePerIDSet bad")])
@@ -89,6 +91,7 @@ def check():  # TODO this would be better with 'stateless call'
 def no_topics_yet():
     non_exist_vote_count(0)
     non_exist_vote(0)
+    expect_topic_count(0)
 
 def start():
     reset()
@@ -123,17 +126,29 @@ def add_topic(string=None):
     while string != "":
         args.append(i(string[:32]))
         string = string[32:]
+    while len(args) <= 3:
+        args.append(i(""))
     
     j = i_store(0x40)
-    if len(args) > 224 - 0x20:
-        ae(s.send(t.k2, c, 0, args), ["too long topic string"])
+    if len(args) > 6:
+        ae(s.send(t.k2, c, 0, args), [i("too long topic string")])
         assert i_store(0x40) == j  # Cant have added it anyway.
-        check()
     elif len(args) > 3:
-        ae(s.send(t.k2, c, 0, args), ["topic set"])
+        ae(s.send(t.k2, c, 0, args), [i("topic set")])
         assert i_store(0x40) == j + 224   # Must have indeed moved forwar.d
-        check()
-    #else: # Could be any of the other commands.
+        #TODO check message itself.
+    else:
+        print("na", len(args))
+    check()
 
-initialize()
-add_topic()
+def create_topics():
+    initialize()
+    n = randrange(1,5)
+    for j in range(n):
+        expect_topic_count(j)
+        add_topic()
+
+    expect_topic_count(n)
+    return n
+
+create_topics()

@@ -58,6 +58,12 @@ code:
         return("changed!")
 
 // Anyone speaking.
+    if msg.datasize == 1:
+        if msg.data[0] == "topic_count":
+            return((contract.storage[TopicI] - TopicStartI) / TopicSz)
+            
+        return("anyone bad 4")
+
     if msg.datasize == 2:
         if msg.data[0] == "vote_count":
             if msg.data[1] >= (contract.Storage[TopicI] - TopicStartI)/TopicSz:
@@ -94,11 +100,13 @@ code:
 
         i = contract.storage[TopicI]
         j = i + 0x20
+        k = 0
         tj = i + msg.datasize*0x20
-        while j < tj: // Set it.
-            contract.storage[j] = msg.data[j - i]
+        while j < tj && msg.data[k] != "": // Set it.
+            contract.storage[j] = msg.data[k]
             j = j + 0x20
+            k = k + 1
 
         contract.storage[TopicI] = i + TopicSz
-        return("topic set.")
+        return("topic set")
     return("anyone bad 3")
