@@ -25,13 +25,14 @@ code:
                 got = contract.storage[msg.data[1]]
                 if got:
                     return("already registered")
-                else:  // Splits slot in two halves.
-                    contract.storage[msg.data[1]] = block.timestamp + HALFWAY*block.timestamp
-                    return("registered")
+                // Splits slot in two halves.
+                contract.storage[msg.data[1]] = block.timestamp + HALFWAY*block.timestamp
+                return("registered")
 
             if msg.data[0] == "deregister":  // One Per ID has a lot of power!
                 contract.storage[msg.data[1]] = 0
                 return("deregistered")
+
             return("OnePerID bad 1")
         
         if msg.datasize == 3 && msg.data[0] == "move":

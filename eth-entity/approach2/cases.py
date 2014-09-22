@@ -106,6 +106,7 @@ c2 = s.contract('any_per_id.se', t.k0)  # TODO test of that alone.
 def initialize():
     start()
     c2 = s.contract('any_per_id.se', t.k0)
+    # TODO check that it responds with "not initialized" when registering.
     assert addr_store(0, c2) == t.a0
     # Gives himself full power, the bastard.
     ae(s.send(t.k0, c, 0, [c2, t.a0]), [i("changed!")])
@@ -151,4 +152,12 @@ def create_topics():
     expect_topic_count(n)
     return n
 
+# TODO Doesnt return anything, wtf.
+# Stumped: doesnt seem to reproduce
+def register():
+    ret = s.send(t.k2, c2, 0, [])
+    print(ret)
+    print(map(stri, ret))
+
 create_topics()
+register()
