@@ -8,7 +8,7 @@ shared:
     
     TopicStartI = 0x60
     
-    HALFWAY=340282366920938463463374607431768211456
+    HALFWAY = 340282366920938463463374607431768211456
     LARGE = 1152921504606846976
 init:
     contract.storage[OnePerID] = 0              // One per ID. (initially no one)

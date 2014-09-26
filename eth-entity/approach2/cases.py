@@ -2,7 +2,8 @@ import pyethereum
 from random import randrange
 t = pyethereum.tester
 
-# TODO.. all these convenience definitions are quite rough..
+# TODO.. all these convenience definitions are not well named and
+#  not well located.
 
 def i(str):
     s,f = 0, 1
@@ -20,6 +21,7 @@ def stri(i):
 
 s = t.state()
 c = s.contract('bitvote.se', t.k0)
+c2 = s.contract('any_per_id.se', t.k0)  # TODO test of that alone.
 
 def ae(a, b, cond=None, what="N/A"):
     if (a !=b if cond == None else not cond):
@@ -42,11 +44,6 @@ def str_store(index, contract=c):
 
 def addr_store(index, contract=c):
     return hex(store(index, contract))[2:-1]
-
-def reset():
-    global c,s
-    s = t.state()
-    c = s.contract('bitvote.se', t.k0)
 
 LARGE = 1152921504606846976
 
@@ -93,19 +90,20 @@ def no_topics_yet():
     non_exist_vote(0)
     expect_topic_count(0)
 
+
 def start():
-    reset()
+    global c, c2
+    c = s.contract('bitvote.se', t.k0)
+    c2 = s.contract('any_per_id.se', t.k0)
+    
     check()
     ae(i_store(0x00), 0)
     assert addr_store(0x20) == t.a0
     ae(i_store(0x40), 0x60)
     no_topics_yet()
 
-c2 = s.contract('any_per_id.se', t.k0)  # TODO test of that alone.
-
 def initialize():
     start()
-    c2 = s.contract('any_per_id.se', t.k0)
     # TODO check that it responds with "not initialized" when registering.
     assert addr_store(0, c2) == t.a0
     # Gives himself full power, the bastard.
@@ -152,8 +150,6 @@ def create_topics():
     expect_topic_count(n)
     return n
 
-# TODO Doesnt return anything, wtf.
-# Stumped: doesnt seem to reproduce
 def register():
     ret = s.send(t.k2, c2, 0, [])
     print(ret)
