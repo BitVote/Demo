@@ -29,20 +29,23 @@ def ae(a, b, cond=None, what="N/A"):
         print('-', map(stri,a), "vs", map(stri,b), ":", what)        
         assert False
 
-def store(index, contract=c):
+def store(index, contract=None):
+    global c
+    if contract == None:  # How the optional arguments worked bit me.
+        contract = c      # (they work badly in Python)
     result = int(s.block.get_storage_data(contract, index))
     if contract == c:
         ae(s.send(t.k9, contract, 0, [i("account"), index]), [result],
            None, "store mismatch")
     return result
 
-def i_store(index, contract=c):
+def i_store(index, contract=None):
     return int(store(index, contract))
 
-def str_store(index, contract=c):
+def str_store(index, contract=None):
     return stri(store(index, contract))
 
-def addr_store(index, contract=c):
+def addr_store(index, contract=None):
     return hex(store(index, contract))[2:-1]
 
 LARGE = 1152921504606846976
@@ -95,7 +98,6 @@ def start():
     global c, c2
     c = s.contract('bitvote.se', t.k0)
     c2 = s.contract('any_per_id.se', t.k0)
-    
     check()
     ae(i_store(0x00), 0)
     assert addr_store(0x20) == t.a0
@@ -108,7 +110,8 @@ def initialize():
     assert addr_store(0, c2) == t.a0
     # Gives himself full power, the bastard.
     ae(s.send(t.k0, c, 0, [c2, t.a0]), [i("changed!")])
-    assert addr_store(0x00) == c2 and addr_store(0x20) == t.a0
+    assert addr_store(0x20) == t.a0
+    assert addr_store(0x00) == c2
     check()
     for x in [[1,2], []]:
         ae(s.send(t.k0, c2, 0, x), [i("initializer bad")])
@@ -134,7 +137,7 @@ def add_topic(string=None):
         assert i_store(0x40) == j  # Cant have added it anyway.
     elif len(args) > 3:
         ae(s.send(t.k2, c, 0, args), [i("topic set")])
-        assert i_store(0x40) == j + 224   # Must have indeed moved forwar.d
+        assert i_store(0x40) == j + 224   # Must have indeed moved forward.
         #TODO check message itself.
     else:
         print("na", len(args))

@@ -1,5 +1,4 @@
 // Stupid "one per ID" that gives away identities to everyone.
-
 shared:
     Initializer = 0x00
     BitVote = 0x20
@@ -13,15 +12,12 @@ code:
             contract.storage[Bitvote] = msg.data[0]
             contract.storage[Initializer] = 0
             return("initialized")
-    
-    return("derp")
-//    bitvote = contract.storage[BitVote]
-//    if bitvote:
-//        if msg.sender != bitvote:
-//            return("bitvote cannot have an identity") //(against loops!)
-//        //args = ["register", msg.sender]
-//        //val = msg(tx.gas - 100, contract.storage[BitVote], 0, 2, args)
-//        // return(val)
-//        return("ska!")
-//    return("not initialized")
-//e
+    bitvote = contract.storage[BitVote]
+    if bitvote:
+        if msg.sender != bitvote:
+            return("bitvote cannot have an identity") //(against loops!)
+        //args = ["register", msg.sender]
+        //val = msg(tx.gas - 100, contract.storage[BitVote], 0, 2, args)
+        // return(val)
+        return("ska!")
+    return("not initialized")
