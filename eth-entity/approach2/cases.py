@@ -64,8 +64,10 @@ def non_exist_vote(j=None):
        [i("That topic doesnt exist yet.")])
 
 def expect_topic_count(n):
-    assert i_store(0x40) == 0x60 + 224*n
+    ae([i_store(0x40)], [0x60 + 224*n])
     ae(s.send(t.k9, c, 0, [i("topic_count")]), [n])
+    non_exist_vote(randrange(n, n+3))
+    non_exist_vote_count(randrange(n, n+3))
     
 
 def too_long_topic():
@@ -94,18 +96,18 @@ def no_topics_yet():
     expect_topic_count(0)
 
 
-def start():
-    global c, c2
+def scenario_start():
+    global c
     c = s.contract('bitvote.se', t.k0)
-    c2 = s.contract('any_per_id.se', t.k0)
     check()
     ae(i_store(0x00), 0)
     assert addr_store(0x20) == t.a0
     ae(i_store(0x40), 0x60)
     no_topics_yet()
 
-def initialize():
-    start()
+def initialize(have_topics=False):
+    global c2
+    c2 = s.contract('any_per_id.se', t.k0)
     # TODO check that it responds with "not initialized" when registering.
     assert addr_store(0, c2) == t.a0
     # Gives himself full power, the bastard.
@@ -117,7 +119,9 @@ def initialize():
         ae(s.send(t.k0, c2, 0, x), [i("initializer bad")])
     ae(s.send(t.k0, c2, 0, [c]), [i("initialized")])
     assert i_store(0, c2) == 0
-    no_topics_yet()
+    
+    if not have_topics:
+        no_topics_yet()
 
 def add_topic(string=None):
     if string == None:
@@ -143,20 +147,35 @@ def add_topic(string=None):
         print("na", len(args))
     check()
 
-def create_topics():
-    initialize()
+def scenario_create_topics(init_first=False):  # TODO has to work with `False` too.
+    scenario_start()
+    init_first = randrange(2)==1 if init_first == None else init_first
+    if init_first:
+        initialize()  # TODO first adding topics, then intializing?
     n = randrange(1,5)
     for j in range(n):
         expect_topic_count(j)
         add_topic()
+    
+    if not init_first:
+        initialize(True)
 
     expect_topic_count(n)
     return n
 
-def register():
-    ret = s.send(t.k2, c2, 0, [])
-    print(ret)
-    print(map(stri, ret))
+def scenario_register():
+    n = scenario_create_topics()
+    ae(s.send(t.k2, c2, 0, []), [i("registered")])
+    # TODO check timestamp on the account.
+    check()
+    return n
 
-create_topics()
-register()
+def scenario_vote():
+    n = scenario_register()
+    j = randrange(n)
+    ae(s.send(t.k2, c2, 0, [i("vote"), j, 60]), [i("cannot spend more than you have")])
+    s.mine(100)  # Get some time. TODO test not independent on block time right now.
+    ae(s.send(t.k2, c2, 0, [i("vote"), j, 60]), [i("voted")]) # Vote 60s.
+    #TODO
+
+scenario_register()
