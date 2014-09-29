@@ -147,11 +147,11 @@ def add_topic(string=None):
         print("na", len(args))
     check()
 
-def scenario_create_topics(init_first=False):  # TODO has to work with `False` too.
+def scenario_create_topics(init_first=False): 
     scenario_start()
     init_first = randrange(2)==1 if init_first == None else init_first
     if init_first:
-        initialize()  # TODO first adding topics, then intializing?
+        initialize()
     n = randrange(1,5)
     for j in range(n):
         expect_topic_count(j)
@@ -176,6 +176,6 @@ def scenario_vote():
     ae(s.send(t.k2, c2, 0, [i("vote"), j, 60]), [i("cannot spend more than you have")])
     s.mine(100)  # Get some time. TODO test not independent on block time right now.
     ae(s.send(t.k2, c2, 0, [i("vote"), j, 60]), [i("voted")]) # Vote 60s.
-    #TODO
+    #TODO check it moved forward enough.
 
 scenario_register()
