@@ -78,6 +78,7 @@ def too_long_topic():
        [i("too long topic string")])
 
 def check():  # TODO this would be better with 'stateless call'
+    s.mine()
     # Smaller than large.
     ae(i_store(0x40), LARGE, i_store(0x40) < LARGE, "topic index unrealistic")
     # Thing that can happen in any case.
@@ -172,21 +173,19 @@ def scenario_create_topics(init_first=False):
     expect_topic_count(n)
     return n
 
-def scenario_register():
-    n = scenario_create_topics()
-    ae(s.send(t.k2, c2, 0, []), [i("registered")])
+def register(k):
+    ae(s.send(t.keys[k], c2, 0, []), [i("registered")])
     # Check that timestamp set right.
     tm = s.block.timestamp
-    assert tm + HALFWAY*tm == store(int(t.a2,16))
+    assert tm + HALFWAY*tm == store(int(t.accounts[k],16))
     # TODO check timestamp on the account.
     check()
-    return n, tm
+    return tm
 
 def scenario_vote():
-    n, tm = scenario_register()
+    n = scenario_create_topics()
+    tm = register(2)
     j = randrange(n)
-    if s.send(t.k2, c, 0, [i("vote"), j, 60]) != [i("cannot spend more than you have")]:
-        print(n,j, store(0x40), (store(0x40)-0x60)/224)
     ae(s.send(t.k2, c, 0, [i("vote"), j, 60]), [i("cannot spend more than you have")])
     assert tm + HALFWAY*tm == store(int(t.a2,16))
     
@@ -198,6 +197,14 @@ def scenario_vote():
     assert tm + HALFWAY*(tm + use_tm) == store(int(t.a2,16))
     # Check that topic received said votes.
     ae(s.send(t.k9, c, 0, [i("vote_count"), j]), [use_tm])
+
+    tm2 = register(3)  # Register and check again.
+    use_tm2 = randrange(60,600)
+    s.mine(100)  
+    ae(s.send(t.k3, c, 0, [i("vote"), j, use_tm2]), [i("voted")])
+    assert tm2 + HALFWAY*(tm2 + use_tm2) == store(int(t.a3,16))
+    ae(s.send(t.k9, c, 0, [i("vote_count"), j]), [use_tm + use_tm2])
+
 
 for k in range(8):
     scenario_vote()

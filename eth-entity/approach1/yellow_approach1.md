@@ -1,4 +1,14 @@
+---
+layout: post
+title:  "MIAUW"
+categories: Bitvote_yellowpaper
+---
+
+**MOVED TO:** https://github.com/BitVote/bitvote/
+
 **WORK IN PROGRESS**
+
+**TODO is it 1 or 2..**
 
 # Bitvote Yellow Paper 1
 
@@ -12,20 +22,18 @@ chosen.
 
 However, this paper is not about the social and political approach to make
 it effective, it is about technically a decentralized accounting of this vote
-time.
+time. Both why it should be decentralized and social political approach will
+be in the whitepaper.
 
 In order to give each person one vote-hour per hour, you need to give people
 identities, and not give two identities to the same person. This will *not*
-be covered in this paper, instead it is delegated to a second system the
-'OnePerID', for this purpose. Since this is such an important part, this might
-be disappointing. If too much so, perhaps you should wait until a later time
-when that problem has been analysed more. Note that the OnePerID system will
-be upgradable 'in operation'.
+be covered in this paper, instead it is delegated to a second system called 
+OnePerID. Since it is such an important part, this might be disappointing.
+If too much so, perhaps you should wait until a later time when that problem
+has been analysed more. Note that the OnePerID system will be upgradable
+in operation.
 
 **TODO** might have a section about early OnePerID ideas.
-
-## The need for decentralization
-**TODO**
 
 # The current technical approach
 The current approach is to use Ethereum contracts written in Serpent. This may 
@@ -38,7 +46,7 @@ Only registered Ethereum addresses can vote, and OnePerID chooses which
 Ethereum addresses are registered.
 
 The subjects to vote on are kept in a array with each votable
-subject'-string' 224 bytes long, and the first 32 are the count of votes
+subject-string 224 bytes long, and the first 32 are the count of votes
 received, and the rest are the strings. This is done principly for simplicity.
 In the future, it will save on-blockchain space for magnet/swarm links
 instead.<sup>MAGNET_SWARM</sup> *Any* ethereum addresss can suggest
@@ -212,13 +220,13 @@ Note that Ethereum can also use contracts to help security along somewhat, but
 it is *not* sufficient to the problem that people know someone with a secure-ish
 computer. They need their own secure-ish computer.
 
+### Appendix: Some suggested terms
+
 # References
 
-REF_HANGING_BLOCKS  http://o-jasper.github.io/blog/2014/06/03/hanging_blocks.html
+THREE_SIDES_CONSENSUS **TODO** where was it again.... 
 
-THREE_SIDES_CONSENSUS 
-
-MERKLE_TREE
+MERKLE_TREE https://en.wikipedia.org/wiki/Merkle_tree
 
 NATIVE_CODE_EXTENSIONS https://blog.ethereum.org/2014/08/27/state-ethereum-august-edition/
 see also [this ECC example](https://github.com/ethereum/serpent/tree/master/examples/ecc)
@@ -227,3 +235,4 @@ for costs.
 CRYPTONOTE cryptonote uses it https://cryptonote.org/inside#untraceable-payments,
 apparently also bytecoin http://bravenewcoin.com/profiles/coins/bytecoin/
 
+REF_HANGING_BLOCKS  http://o-jasper.github.io/blog/2014/06/03/hanging_blocks.html
