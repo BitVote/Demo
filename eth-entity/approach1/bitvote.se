@@ -67,18 +67,18 @@ code:
 
     if msg.datasize == 2:
         if msg.data[0] == "vote_count":
-            if msg.data[1] >= (contract.Storage[TopicI] - TopicStartI)/TopicSz:
-                return("That topic doesnt exist yet")
-
+            if msg.data[1] >= ((contract.storage[TopicI] - TopicStartI)/TopicSz):
+                return("topic doesnt exist yet")
             return(contract.storage[TopicStartI + msg.data[1]*TopicSz])
+
         if msg.data[0] == "account": //Can also be used to get out OnePerId, 
             return(contract.storage[msg.data[1]])
         return("anyone bad 1")
 
     if msg.datasize == 3: //Defined as being a vote.
         if msg.data[0] == "vote":
-            if msg.data[1] >= (contract.Storage[TopicI] - TopicStartI)/TopicSz:
-                return("That topic doesnt exist yet.")
+            if msg.data[1] >= (contract.storage[TopicI] - TopicStartI)/TopicSz:
+                return("topic doesnt exist yet(vote)")
 
             slot = contract.storage[msg.sender]
             if slot == 0:
@@ -86,7 +86,7 @@ code:
             if slot/HALFWAY + msg.data[2] > block.timestamp:
                 return("cannot spend more than you have")
             // Use up the voting time.
-            contract.storage[msg.sender] = slot%HALFWAY + HALFWAY*(slot/halfway + msg.data[2])
+            contract.storage[msg.sender] = slot%HALFWAY + HALFWAY*(slot/HALFWAY + msg.data[2])
             
             // And give it to the topic.
             cur = contract.storage[TopicStartI + msg.data[1]*TopicSz]
